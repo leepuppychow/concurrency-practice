@@ -5,26 +5,38 @@ import "fmt"
 func RunPipeline() {
 	nums := make(chan int)
 	squares := make(chan int)
-	go generateNums(nums)
-	go squareNums(nums, squares)
-	printer(squares)
+	final := make(chan int)
+	go Generator(nums, 20)
+	go Mutator(square, nums, squares)	
+	go Mutator(Adder(1000), squares, final)
+	Printer(final)
 }
 
-func generateNums(out chan<- int) {
-	for i := 0; i <= 10; i++ {
+func Generator(out chan<- int, max int) {
+	for i := 0; i <= max; i++ {
 		out <- i
 	}
 	close(out)
 }
 
-func squareNums(in <-chan int, out chan<- int) {
+func Mutator(fn func(a int) int, in <-chan int, out chan<- int) {
 	for num := range in {
-		out <- num * num
+		out <- fn(num)
 	}
 	close(out)
 }
 
-func printer(in <-chan int) {
+func square(num int) int {
+	return num * num
+}
+
+func Adder(num int) func(a int) int {
+	return func(a int) int {
+		return num + a
+	}
+}
+
+func Printer(in <-chan int) {
 	for result := range in {
 		fmt.Println(result)
 	}
