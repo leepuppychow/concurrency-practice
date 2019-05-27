@@ -7,7 +7,7 @@ func RunPipeline() {
 	squares := make(chan int)
 	final := make(chan int)
 	go Generator(nums, 20)
-	go Mutator(square, nums, squares)	
+	go Mutator(Squared, nums, squares)
 	go Mutator(Adder(1000), squares, final)
 	Printer(final)
 }
@@ -26,7 +26,7 @@ func Mutator(fn func(a int) int, in <-chan int, out chan<- int) {
 	close(out)
 }
 
-func square(num int) int {
+func Squared(num int) int {
 	return num * num
 }
 

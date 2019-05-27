@@ -1,9 +1,16 @@
 package main
 
 import (
-	p "github.com/leepuppychow/concurrency-practice/pipeline"
+	"fmt"
+	"time"
+
+	s "github.com/leepuppychow/concurrency-practice/surfaces"
 )
 
 func main() {
-	p.RunPipeline()
+	start := time.Now()
+
+	fmt.Println(s.GeneratePlot())
+
+	fmt.Println(time.Since(start))
 }
