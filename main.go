@@ -1,16 +1,9 @@
 package main
 
 import (
-	"fmt"
-	"time"
-
-	s "github.com/leepuppychow/concurrency-practice/surfaces"
+	t "github.com/leepuppychow/concurrency-practice/timeouts"
 )
 
 func main() {
-	start := time.Now()
-
-	fmt.Println(s.GeneratePlot())
-
-	fmt.Println(time.Since(start))
+	t.RunTimeoutExample(5)
 }
