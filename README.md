@@ -1,0 +1,1 @@
+### Assortment of learning exercises to explore concurrency in Go
