@@ -24,7 +24,7 @@ func randomNum(min, max int) int {
 }
 
 // Note: return slice of Dish pointers because you should not copy the sync.Mutex
-func InitializeDishes() []*Dish {
+func OrderDishes() []*Dish {
 	d1 := Dish{Name: "chorizo", Morsels: randomNum(5, 11)}
 	d2 := Dish{Name: "chopitos", Morsels: randomNum(5, 11)}
 	d3 := Dish{Name: "pimientos de padrón", Morsels: randomNum(5, 11)}
@@ -34,15 +34,15 @@ func InitializeDishes() []*Dish {
 }
 
 func Runner() {
-	dishes := InitializeDishes()
-	doneCh := make(chan *Person)
+	dishes := OrderDishes()
+	done := make(chan *Person)
 	foodLeft := true
 	foodCh := make(chan bool)
 
-	alice := Person{Name: "Alice", Done: doneCh}
-	bob := Person{Name: "Bob", Done: doneCh}
-	charlie := Person{Name: "Charlie", Done: doneCh}
-	dave := Person{Name: "Dave", Done: doneCh}
+	alice := Person{Name: "Alice", Done: done}
+	bob := Person{Name: "Bob", Done: done}
+	charlie := Person{Name: "Charlie", Done: done}
+	dave := Person{Name: "Dave", Done: done}
 
 	fmt.Println("Bon appétit!")
 	printDishes(dishes)
@@ -54,13 +54,13 @@ func Runner() {
 
 	for foodLeft {
 		select {
-		case person := <-doneCh:
+		case person := <-done:
 			go person.EatMorsel(dishes)
 			go checkFoodLeft(dishes, foodCh)
 		case foodLeft = <-foodCh:
 		}
 	}
-	fmt.Println("All done eating.")
+	fmt.Println("That was delicious!")
 	printDishes(dishes)
 }
 
