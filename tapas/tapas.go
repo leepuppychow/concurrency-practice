@@ -88,9 +88,8 @@ func (p *Person) EatMorsel(dishes []*Dish) {
 	dish.mu.Unlock()
 
 	fmt.Printf("\t%s is enjoying some %s (morsels = %d).\n", p.Name, dish.Name, dish.Morsels)
-	// timeSpent := randomNum(30, 180)
-	timeSpent := randomNum(3, 5)
-	time.Sleep(time.Duration(timeSpent) * time.Second)
+	timeSpent := randomNum(30, 180)
+	time.Sleep(time.Duration(timeSpent) * time.Millisecond)
 
 	p.Done <- p
 }
