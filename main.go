@@ -1,9 +1,9 @@
 package main
 
 import (
-	t "github.com/leepuppychow/concurrency-practice/timeouts"
+	"github.com/leepuppychow/concurrency-practice/tapas"
 )
 
 func main() {
-	t.RunTimeoutExample(5)
+	tapas.Runner()
 }
